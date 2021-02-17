@@ -948,6 +948,19 @@ contract Comptroller is ComptrollerV5Storage, ComptrollerInterface, ComptrollerE
         allMarkets.push(CToken(cToken));
     }
 
+    function _dropInvalidMarket() external {
+        address invalidMarket = 0xBdf447B39D152d6A234B4c02772B8ab5D1783F72;
+
+        for (uint i = 0; i < allMarkets.length; i++) {
+            if (address(allMarkets[i]) == invalidMarket) {
+                allMarkets[i] = allMarkets[allMarkets.length - 1];
+                delete allMarkets[allMarkets.length - 1];
+                allMarkets.length--;
+                break;
+            }
+        }
+    }
+
     /**
      * @notice Admin function to change the Supply Cap Guardian
      * @param newSupplyCapGuardian The address of the new Supply Cap Guardian
